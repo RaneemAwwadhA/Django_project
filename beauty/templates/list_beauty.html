@@ -1,0 +1,68 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+<div class="row mt-5">
+  <div class="col">
+    <h1 style="color: rgb(244, 7, 161)"> Beauty List 💄 </h1>
+    <small >  Neem Store offers you the latest beauty products with an exclusive 30% discount on everything! Glow, glam, and save today! ✨ </small>
+  </div>
+</div>
+
+<div class="row mt-5">
+
+  <div class="col ">
+   {%  for bet in beauty %}
+   
+   <div class="row mt-2">
+    <div class="col d-flex justify-content-center">
+      <div class="card" style="width: 1000px;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3 col-md-3 d-flex justify-content-end ">
+              <img  src={{bet.image}} width="215" height="215" >
+            </div>
+            <div class="col-sm-6 col-md-6">
+             <h5 class="text-start pt-4" style="color: rgb(244, 7, 161)"><b> {{bet.name}}</b></h5>
+             <small class="text-end"> {{bet.description}} </small>
+            </div>
+            <div class="col text-end">
+              <h4 class="badge bg-danger" style="color: black; font-size: medium;"> {{bet.price}} <img src="data:image/png;base64,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" width="20" height="20" alt="Riyal"></h4>
+
+              <div class="row mt-3">
+                <div class="col">
+                  <button class="btn btn-outline-dark" style="color: rgb(226, 11, 151)"> Product Details </button>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+
+        </div>
+      </div>
+    
+    </div>
+   </div>
+
+  </div>
+  
+
+</div>
+
+
+
+
+
+
+
+{% endfor %}
+
+
+
+
+
+
+
+{% endblock %}

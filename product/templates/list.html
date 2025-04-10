@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <!-- Back to Categories Page -->
+  <a href="{% url 'homee' %}" class="btn btn-outline rounded-pill px-4 py-2 order-2 order-md-1 mt-3 mt-md-0" style="background-color: #ffd7f7; color: rgb(56, 4, 42); white-space: nowrap;">
+    ← Back to Categories
+  </a>
+
+    <h1 class="mb-5 text-center" style="
+        margin-bottom: 40px;
+        letter-spacing: 2px;
+      
+        font-weight: bold;
+        background-image: linear-gradient(45deg, #e20aa8, #c1a9e0c1);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;">
+        {% if category.name == "Electronics" %}
+            Electronics List <span style="color: black;">📱</span>
+        {% elif category.name == "Furniture" %}
+            Furniture List <span style="color: black;">🛋️</span>
+        {% elif category.name == "Beauty" %}
+            Beauty List <span style="color: black;">💄</span>
+        {% elif category.name == "Kitchenware" %}
+            Kitchenware List <span style="color: black;">🍽️</span>
+        {% else %}
+            {{ category.name }} List <span style="color: black;">🛒</span>
+        {% endif %}
+            
+    </h1>
+
+    <!-- View Products -->
+    <div class="row row-cols-1 row-cols-md-2 g-5">
+        {% for p in product %}
+        <div class="col ">
+            <div class="card product-card h-100 border-1 rounded-4 overflow-hidden " style=" border: 0.5px solid #ffd1f6af;">
+
+                <!-- Product image -->
+                {% if p.image %}
+                <div class="d-flex justify-content-center">
+                  <img src="{{ p.image.url }}" class="card-img-top" alt="{{ p.name }}" 
+                  style="height: 240px; width: 300px; object-fit: cover; border-bottom: 1px solid #eee;">
+                </div>
+                {% else %}
+                <div class="d-flex justify-content-center">
+                  <img src="/media/images/default.jpg" class="card-img-top" alt="No image" 
+                  style="height: 240px; width: 280px; object-fit: cover; border-bottom: 1px solid #eee;">
+                </div>
+                {% endif %}
+
+                <!-- Product Details -->
+                <div class="card-body px-4 pt-4">
+                    <h5 class="card-title mb-2 fw-bold" style="color: #9106b0;">{{ p.name }}</h5>
+                    {% if p.notes %}
+                        <p class="mt-2 mb-0" style="color: #16a085; font-weight: 500;">📝 {{ p.notes }}</p>
+                    {% endif %}
+                </div>
+
+
+
+              <!-- Price and details button -->
+                <div class="card-footer  px-4 pb-4 d-flex justify-content-between align-items-center border-top" style="background-color: #f6e7f24e;">
+                    <span class="fw-bold text-dark" style="font-size: 25px;">
+                        {{ p.net|floatformat:1 }}
+                        <img src="/media/images/Saudi_Riyal.png" alt="Riyal" style="width: 22px; height: auto;">
+                    </span>
+                    <a href="{% url 'product_detail' p.id %}" class="btn btn-outline btn-sm rounded-pill px-3" style="background-color: #e20aa87f; color: rgb(61, 43, 43);" >View Details</a>
+                </div>
+            </div>   
+            
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: white;
+}
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 8px 16px rgba(242, 200, 231, 0.915)
+}
+</style>
+
+{% endblock %}

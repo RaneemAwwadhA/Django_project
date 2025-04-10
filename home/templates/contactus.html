@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .contact-section {
+        padding: 80px 0;
+        text-align: center;
+    }
+
+    .contact-section h1 {
+        margin-bottom: 40px;
+        font-size: 2.5rem; 
+        font-weight: bold;
+        background-image: linear-gradient(45deg, #e20aa8, #0ae6eac1); 
+        -webkit-background-clip: text; 
+        background-clip: text; 
+        color: transparent;
+        letter-spacing: 1px;
+    }
+
+    .contact-section p {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 40px;
+    }
+
+    .contact-info {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+    }
+
+    .contact-info .info-item {
+        background-color: rgba(244, 223, 237, 0.7);
+        padding: 30px 25px;
+        width: 30%;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin: 10px;
+    }
+
+    .contact-info .info-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .contact-info .info-item h4 {
+        font-size: 1.5rem;
+        color: #c50a99;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        display: flex;
+        font-weight: bold;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .contact-info .info-item h4 i {
+        font-size: 1.6rem;
+        color: #96b1da;
+        margin-right: 10px;
+    }
+
+    .contact-info .info-item p {
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .contact-info .info-item a {
+        text-decoration: none;
+        color: #000000;
+        font-weight: 500;
+    }
+
+  
+    @media (max-width: 768px) {
+        .contact-info {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-info .info-item {
+            width: 80%;
+            margin-bottom: 20px;
+        }
+
+        .contact-section h1 {
+            font-size: 2.5rem;
+        }
+    }
+</style>
+
+<div class="container contact-section mt-3">
+    <h1>Contact Us <span style="color: black;">💬</span></h1>   
+    <p>If you have any questions or need assistance, feel free to reach out to us. We are here to help! 😊</p>
+
+    <div class="contact-info">
+        <div class="info-item">
+            <h4><i class="fas fa-envelope"></i> Email Us</h4>
+            <p><a href="mailto:info@neemstore.com">info@neemstore.com</a></p>
+        </div>
+        
+        <div class="info-item">
+            <h4><i class="fas fa-phone-alt"></i> Call Us</h4>
+            <p><a href="tel:+9668001234567">+966 800-123-4567</a></p>
+        </div>
+        
+        <div class="info-item">
+            <h4><i class="fas fa-map-marker-alt"></i> Visit Us</h4>
+            <p>123 Neem Street, Taif, Saudi Arabia</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

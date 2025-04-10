@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+  .sweet-confirm-btn {
+  background-color: #eecffc;   /* وردي موف فاتح */
+  color: #333;                 /* أسود ناعم */
+  border: none;
+  border-radius: 50px;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(223, 176, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.sweet-confirm-btn:hover {
+  background-color: #d6b9f2;   /* موف فاتح عند المرور */
+  color: rgb(205, 7, 159);
+  transform: scale(1.05);
+}
+
+</style>
+
+
+<div class="container mt-4">
+  <!-- Back to Previous Page -->
+  <a href="javascript:history.back()" class="btn btn-outline rounded-pill px-4 py-2 mt-2" style="background-color: #ffd7f7; color: rgb(56, 4, 42);">
+    ← Back to Previous Page
+</a>
+  
+    <div class="card shadow-lg rounded-4 p-5 border-0 mt-4" style="background-color: #fff0f76e;">
+        <div class="row align-items-center g-5">
+            
+            <!-- Product Image -->
+            <div class="col-md-6 text-center">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                        class="img-fluid rounded-4 shadow-sm"
+                        style="max-height: 400px; object-fit: contain; cursor: zoom-in; background-color: transparent;"
+                        data-bs-toggle="modal" data-bs-target="#imageModal">
+                {% else %}
+                    <img src="/media/images/default.jpg" alt="No Image"
+                        class="img-fluid rounded-4 shadow-sm"
+                        style="max-height: 400px; object-fit: contain; cursor: zoom-in; background-color: transparent;"
+                        data-bs-toggle="modal" data-bs-target="#imageModal">
+                {% endif %}
+            </div>
+
+            <!-- Modal to display image -->
+            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content bg-transparent border-0">
+                        <div class="modal-body text-center p-0">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                                    class="img-fluid rounded-4" style="max-height: 80vh; object-fit: contain;">
+                            {% else %}
+                                <img src="/media/images/default.jpg" alt="No Image"
+                                    class="img-fluid rounded-4" style="max-height: 80vh; object-fit: contain;">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="col-md-6">
+                <h2 class="fw-bold mb-3" style="color: #7a0c96;">{{ product.name }}</h2>
+                <p class="mb-2" >
+                  <strong style="color: #b62087;">📁 Category:</strong> {{ product.categories.name }}
+                </p>
+
+                <ul class="list-unstyled mb-4" style="font-size: 1rem; color: #3a3a3a;">
+                    <li class="mb-2">
+                        <strong style="color: #b62087;">🎨 Color:</strong> {{ product.color|default:"N/A" }}
+                    </li>
+                    <li class="mb-2">
+                        <strong style="color: #b62087;">📦 Quantity:</strong> {{ product.qty|floatformat:0 }}
+                    </li>
+                    <li class="mb-2">
+                        <strong style="color: #b62087;">💰 Tax:</strong> {{ product.tax|floatformat:2 }}%
+                    </li>
+                </ul>
+
+                {% if product.notes %}
+                    <p class="mb-4" style="font-size: 1.05rem; color: #5a5a5a;">
+                        <strong style="color: #b62087;">📝 Notes:</strong> {{ product.notes }}
+                    </p>
+                {% endif %}
+
+                <!-- Product Price -->
+                <div class="d-flex align-items-center mb-3">
+                  <h4 class="fw-bold mb-0 me-2" style="font-size: 2rem; color: #070707d6;">
+                      {{ product.net|floatformat:1 }}
+                  </h4>
+                  <img src="/media/images/Saudi_Riyal.png" alt="Riyal" style="width: 26px; height: auto;">
+                  <span class="badge ms-2" style="font-size: 12px; font-weight: lighter; background-color: #e348b2b4; color: rgb(0, 0, 0);" >Tax Included</span>
+
+              </div>
+              
+                <!-- Quantity selection and Add to Cart -->
+                <form id="add-cart-form" class="mt-4">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="quantity" class="form-label fw-bold " style="color: #de13ae;">Quantity:</label>
+                    <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.qty }}"
+                           class="form-control w-25" required>
+                  </div>
+                
+                  <div class="d-flex gap-3 flex-wrap align-items-center">
+                    <button type="button"
+                            class="btn rounded-pill px-4 shadow-sm"
+                            style="background: linear-gradient(135deg, #ffb6c1, #dda0dd); color: #1b1414;"
+                            onclick="addcart()">
+                      <i class="bi bi-cart-plus"></i> Add to Cart
+                    </button>
+                
+
+                    
+                    <a href="{% url 'checkout' %}"
+                    class="btn rounded-pill px-4 shadow-sm"
+                    style="background: linear-gradient(135deg, #f3d6eb, #c6b8f7); color: #1b1414;">
+                   <i class="bi"></i> Continue Shopping
+                 </a>
+                 
+                  </div>
+                </form>
+                
+              
+
+                
+              
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

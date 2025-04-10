@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+.about-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.about-text {
+    padding: 20px;
+}
+
+.about-text h1 {
+       margin-bottom: 40px;
+        letter-spacing: 2px;
+        font-size: 40px; 
+        font-weight: bold; 
+        background-image: linear-gradient(45deg, #e20aa8, #0ae6eac1); 
+        -webkit-background-clip: text; 
+        background-clip: text; color: transparent;
+}
+
+.about-text p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+
+.about-image {
+    display: flex;
+    justify-content: center; 
+    align-items: center;  
+    border-radius: 10px;
+    padding: 20px;
+    
+}
+
+.about-image img {
+    width: 90%; 
+    max-width: 450px;
+    height: auto; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease-in-out; 
+}
+
+
+.about-image img:hover {
+    transform: scale(1.05); 
+}
+
+
+@media (max-width: 768px) {
+    .about-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-text {
+        padding: 10px;
+    }
+
+    .about-image {
+        padding: 10px;
+        margin-top: 20px; 
+    }
+
+    .about-image img {
+        max-width: 80%; 
+        margin-top: 20px;
+    }
+}
+
+</style>
+
+<div class="container">
+  <section class="about-section mt-5">
+      <div class="row">
+          <div class="col-lg-6 about-text">
+              <h1 class="display-4"> About Us <span style="color: black;">🤝🏼</span> </h1> 
+              <p class="lead">At Neem Store, we specialize in offering premium products at competitive prices. Our mission is to provide a safe, enjoyable, and seamless shopping experience for customers everywhere.</p>
+              <p class="lead">We pride ourselves on offering an easy-to-navigate website, exceptional customer support, and a wide range of products to meet every need. Whether you're shopping for electronics, beauty essentials, furniture, or kitchenware, you can trust that we offer only the highest quality.</p>
+              <p class="lead">We are constantly improving our services to exceed our customers' expectations, ensuring a reliable and efficient shopping experience each time you visit.</p>
+          </div>
+          <div class="col-lg-6 about-image">
+              <img src="/media/images/logo.png" alt="Logo" class="img-fluid rounded shadow-lg">
+          </div>
+      </div>
+  </section>
+</div>
+
+{% endblock %}

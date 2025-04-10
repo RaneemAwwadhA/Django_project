@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ 
+<style>
+  option[data-current="true"] {
+    font-weight: bold;
+    background-color: #d1e6f482;
+    color:  #be1385;
+  }
+</style>
+
+
+<div class="row mt-4">
+
+  <h1 style=" margin-bottom: 40px; font-weight: bold; background-image: linear-gradient(45deg, #e20aa8, #0ae6eac1); -webkit-background-clip: text; background-clip: text; 
+  color: transparent; letter-spacing: 1px;"> Edit product information <span style="color: black;"> 📝 </span>   </h1>
+  
+
+    <div class="col">
+        <div class="card" style="width: 100%;">
+            <div class="card-body">
+              <form action="{% url 'update' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                     <input type="hidden" name="id" value="{{ produc.id }}">
+                       <label class="form-label">Product Name</label>
+                       <input type="text" class="form-control form-control-sm" name="name" value="{{ produc.name }}">
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Product Color</label>
+                        <input type="text" class="form-control form-control-sm" name="color" value="{{ produc.color }}">
+                     </div>
+                     <div class="col">
+                        <label class="form-label">Product Price</label>
+                        <input type="number" class="form-control form-control-sm" name="price" value="{{ produc.price }}" step="0.01">
+                     </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                       <label class="form-label">Quantity</label>
+                       <input type="number" class="form-control form-control-sm" name="qty" value="{{ produc.qty }}">
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Tax</label>
+                        <input type="number" class="form-control form-control-sm" name="tax" value="{{ produc.tax }}" step="0.01">
+                     </div>
+                     <div class="col">
+                        <label class="form-label">Total</label>
+                        <input type="number" class="form-control form-control-sm" name="total" value="{{ produc.total }}" step="0.01">
+                     </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label class="form-label">Net Amount</label>
+                        <input type="number" class="form-control form-control-sm" name="net" value="{{ produc.net }}" step="0.01">
+                     </div>
+                        <div class="col">
+                          <label class="form-label">Notes</label>
+                          <textarea name="notes" class="form-control form-control-sm" required id="id_notes" rows="10">{{ produc.notes }}</textarea>
+                      </div>
+                      
+                      <div class="col">
+                        <label class="form-label">Category</label>
+                        <select name="category" class="form-select" required id="categorySelect">
+                          <option value="">-- Select Category --</option>
+                          {% for cat in categories %}
+                            <option 
+                              value="{{ cat.id }}" 
+                              {% if cat.id == produc.categories.id %}selected data-current="true"{% endif %}>
+                              {{ cat.name }}{% if cat.id == produc.categories.id %} (current){% endif %}
+                            </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      
+                      
+                      
+                  <div class="col">
+                    <label class="form-label">Product Image</label>
+                    <input type="file" class="form-control form-control-sm" name="image">
+                    {% if produc.image %}
+                      <div class="mt-2">
+                        <p style="color: #be1385; font-weight: bold;">Current Image:</p>
+                        <img src="{{ produc.image.url }}" alt="Product Image" width="100" style="border-radius: 8px;">
+                      </div>
+                    {% endif %}
+                  </div>
+                  
+                  
+
+            
+                </div>
+                <button type="submit" id="confirmSaveBtn" class="btn btn-success mt-3" style="font-size: 18px; font-weight: bold; padding: 12px 30px; 
+                border-radius: 30px; background: linear-gradient(45deg, #50ffa8, #ff47c2); 
+                border: none; color: rgb(8, 1, 1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); transition: all 0.3s ease-in-out;"> Save
+              </button>
+              </form>
+              
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

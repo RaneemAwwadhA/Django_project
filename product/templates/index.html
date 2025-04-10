@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+
+<div class="row mt-4">
+
+  <div class="title-with-message">
+    <h1 class="page-title" style=" margin-bottom: 40px; font-weight: bold; background-image: linear-gradient(45deg, #e20aa8, #0ae6eac1); -webkit-background-clip: text; background-clip: text; 
+  color: transparent; letter-spacing: 1px;"> Products information <span style="color: black;"> 📦 </span> </h1> 
+  {% if messages %}
+  {% for message in messages %}
+    <div class="toast-message {{ message.tags }}">
+      <span>{{ message }}</span>
+      <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+
+  
+
+
+  
+<div class="col d-flex justify-content-center">
+  <div class="card" style="width: 100%;">
+    <div class="card-body">
+      <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row">
+          <div class="col">
+            <label class="form-label">Product Name</label>
+            <input type="text" class="form-control form-control-sm" name="name" required>
+          </div>
+          <div class="col">
+            <label class="form-label">Product Color</label>
+            <input type="text" class="form-control form-control-sm" name="color" required>
+          </div>
+          <div class="col">
+            <label class="form-label">Product Price</label>
+            <input type="number" class="form-control form-control-sm" name="price" required step="0.01">
+          </div>
+        </div>
+        
+        <div class="row mt-3">
+          <div class="col">
+            <label class="form-label">Tax</label>
+            <input type="number" class="form-control form-control-sm" name="tax" required step="0.01">
+          </div>
+          <div class="col">
+            <label class="form-label">Quantity</label>
+            <input type="number" class="form-control form-control-sm" name="qty" required>
+          </div>
+          <div class="col">
+            <label class="form-label">Total</label>
+            <input type="number" class="form-control form-control-sm" name="total" required step="0.01">
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col">
+            <label class="form-label">Net Amount</label>
+            <input type="number" class="form-control form-control-sm" name="net" required step="0.01">
+          </div>
+          <div class="col">
+            <label class="form-label">Notes</label>
+            <textarea name="notes" class="form-control form-control-sm" rows="10" required></textarea>
+          </div>
+          <div class="col">
+            <label class="form-label">Category</label>
+            <select name="category" class="form-select" required>
+              <option value="">-- Select Category --</option>
+              {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col">
+            <label class="form-label">Product Image</label>
+            <input type="file" class="form-control" name="image">
+          </div>
+          
+        </div>
+
+        <button type="submit" class="btn btn-success mt-3" style="
+          font-size: 18px; 
+          font-weight: bold; 
+          padding: 12px 30px; 
+          border-radius: 30px; 
+          background: linear-gradient(45deg, #50ffa8, #ff47c2); 
+          border: none; 
+          color: rgb(8, 1, 1); 
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+          transition: all 0.3s ease-in-out;">
+          Save
+        </button>
+        
+    
+      </form>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Search box -->
+<div class="row mt-4">
+  <div class="col d-flex justify-content-center">
+      <div class="search-box" style="width: 500px; background-color: rgba(244, 235, 243, 0.682); padding: 20px; border-radius: 8px;">
+        <form action="{% url 'index' %}" method="get">
+          <input type="text" class="form-control" name="val" placeholder="Search for a product" style="width: 100%; padding: 10px; margin-bottom: 15px;">
+          <button class="btn" type="submit" style="background-color: rgba(186, 82, 153, 0.464) ; color: rgb(8, 8, 8); border: none; width: 100%; padding: 10px 0;">Search</button>
+      </form>
+          <a href="{% url 'index' %}" class="d-block text-center p-2" style="text-decoration: none; color: #074f9c;"> View all products</a>
+        
+      </div>
+      
+      
+    
+  </div>
+</div>
+
+<!-- Product table -->
+<div class="row mt-5">
+  <div class="col d-flex justify-content-center">
+    <div class="card" style="width:100%">
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th class="text-center">Product Number</th>
+              <th class="text-center">Product Name</th>
+              <th class="text-center">Product Color</th>
+              <th class="text-center"> Product Image</th>
+              <th class="text-center">Product Price</th>
+              <th class="text-center">Tax</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Net Amount</th>
+              <th class="text-center">Category</th>
+              <th colspan="2" class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in prd %}
+            <tr>
+              <td class="text-center">{{ item.id }}</td>
+              <td class="text-center">{{ item.name }}</td>
+              <td class="text-center">{{ item.color }}</td>
+              <td class="text-center">
+                {% if item.image %}
+                  <img src="{{ item.image.url }}" alt="Product Image" width="50" height="50" style="object-fit: cover;">
+                {% else %}
+                <img src="/media/images/default.jpg" alt="No Image" width="50" height="50" style="object-fit: cover;">
+                {% endif %}
+              </td>
+              <td class="text-center">{{ item.price |floatformat:1 }}</td>
+              <td class="text-center">{{ item.tax |floatformat:2 }}</td>
+              <td class="text-center">{{ item.total |floatformat:1}}</td>
+              <td class="text-center">{{ item.net |floatformat:1 }}</td>
+              <td class="text-center">{{ item.categories.name }}</td>
+            
+              
+              <td class="text-center">
+                <!--Delete product-->
+                <button class="btn btn-link" onclick="deleteitem('{{ item.id }}')">
+                  <i class="bi bi-trash text-danger"></i>
+                </button>
+              </td>
+                <!--Edit product-->
+              <td class="text-center"><a href="{% url 'edit'   id=item.id %}"><i class="bi bi-pencil text-success"></i></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
