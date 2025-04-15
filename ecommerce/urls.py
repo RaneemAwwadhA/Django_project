@@ -54,10 +54,7 @@ urlpatterns = [
 
 
    path('account/', include('accounts.urls')),
-
-
-
-    
+   
     #path('details/',_product.product_details, name='details'),
     #path('electronic/',_electronic.list_electronic,name='listelectronic'),
     #path('beauty/',_beauty.list_beauty,name='listbeauty'),

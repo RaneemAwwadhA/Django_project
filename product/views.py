@@ -69,9 +69,43 @@ def product_details(request, id):
 
 #Add product to cart
 def add_to_cart(request):
-   request.session['cart_count']=request.session.get('cart_count',0)+1
-   request.session.modified=True
-   return JsonResponse({'cart_count': request.session['cart_count']})
+    product_id = request.GET.get('id')
+    quantity = request.GET.get('quantity')
+
+    if not product_id or not quantity:
+        return JsonResponse({'error': 'Missing product id or quantity'}, status=400)
+
+    try:
+        product = get_object_or_404(Product, id=product_id)
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found'}, status=404)
+
+    
+    try:
+        quantity = int(quantity)
+    except ValueError:
+        return JsonResponse({'error': 'Invalid quantity'}, status=400)
+
+
+    cart = request.session.get('cart', {})
+
+    if product.id in cart:
+        cart[product.id]['quantity'] += quantity
+    else:
+        cart[product.id] = {
+            'name': product.name,
+            'color': product.color,
+            'price': str(product.price),
+            'quantity': quantity,
+            'image': product.image.url,
+        }
+
+  
+    request.session['cart'] = cart
+    request.session['cart_count'] = sum(item['quantity'] for item in cart.values())
+    request.session.modified = True
+
+    return JsonResponse({'cart_count': request.session['cart_count']})
 
 
 
@@ -84,25 +118,29 @@ def checkout(request):
 
     cart = request.session.get('cart', {})
 
-# Make sure each item in the cart is a dict containing price and quantity
+    
     total = 0
     for item in cart.values():
         if isinstance(item, dict) and 'price' in item and 'quantity' in item:
-            total += item['price'] * item['quantity']
+            try:
+              
+                price = float(item['price'])
+                quantity = int(item['quantity'])
+                total += price * quantity
+            except ValueError:
+                continue  
 
-    shipping = 5 # Fixed shipping price, for example
+    shipping = 5 
     grand_total = total + shipping
 
+  
     context = {
-        'cart': cart,
+        'cart_items': cart.values(),  
         'cart_count': request.session.get('cart_count', 0),
-        'total': total,
+        'total_price': total,
         'shipping': shipping,
         'grand_total': grand_total,
     }
-    print("User:", request.user)
-
-
 
     return render(request, 'checkout.html', context)
 

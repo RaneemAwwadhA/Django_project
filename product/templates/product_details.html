@@ -103,7 +103,7 @@
                 <form id="add-cart-form" class="mt-4">
                   {% csrf_token %}
                   <div class="mb-3">
-                    <label for="quantity" class="form-label fw-bold " style="color: #de13ae;">Quantity:</label>
+                    <label for="quantity" class="form-label fw-bold" style="color: #de13ae;">Quantity:</label>
                     <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.qty }}"
                            class="form-control w-25" required>
                   </div>
@@ -112,9 +112,12 @@
                     <button type="button"
                             class="btn rounded-pill px-4 shadow-sm"
                             style="background: linear-gradient(135deg, #ffb6c1, #dda0dd); color: #1b1414;"
-                            onclick="addcart()">
+                            onclick="addcart({{ product.id }}, document.getElementById('quantity').value)">
                       <i class="bi bi-cart-plus"></i> Add to Cart
                     </button>
+                  
+                
+                
                 
 
                     

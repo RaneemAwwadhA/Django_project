@@ -61,12 +61,16 @@
                         <p class="mb-0" style="font-weight: 500;">{{ item.color }}</p>
                       </td>
                       <td class="align-middle">
-                        <input type="number" value="{{ item.quantity }}" min="1"
-                               class="form-control form-control-sm" style="width: 50px;" disabled />
+                      
+                          <input type="number" value="{{ item.quantity }}" min="1" max="{{ item.max_qty }}"
+                                 class="form-control form-control-sm quantity-input" data-product-id="{{ item.id }}" />
+                      
+                        
                       </td>
                       <td class="align-middle">
-                        <p class="mb-0" style="font-weight: 500;">SAR {{ item.price|floatformat:2 }}</p>
+                        <p class="mb-0" style="font-weight: 500;">SAR {{ item.price|floatformat:0 }}</p>
                       </td>
+                      
                     </tr>
                     {% empty %}
                     <tr>
